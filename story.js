@@ -1,5 +1,14 @@
 //document.getElementById("carrousel").src = "./";
 
+async function getPokemonData() {
+  return await fetch("http://localhost:8081/pokemon")
+    .then((response) => response.json())
+    .then((data) => {
+      console.log(data);
+      return data;
+    });
+}
+
 function createDiv(className, parentElement, textContent) {
   const newDiv = document.createElement("div");
 
@@ -22,38 +31,49 @@ function createBarElement() {
   createDiv(["proggress-bar"]);
 }
 
-function CreateCardElement() {
+function CreateCardElement(pokemonObjData, cardsDiv) {
   // Should have a parent of div Cards and not body
   const cardContainerDiv = createDiv(["card-container"]);
-  createDiv(["top-card-info"], cardContainerDiv, "Hp 50");
+  createDiv(["top-card-info"], cardContainerDiv, `Hp ${pokemonObjData.hp}`);
   const img = document.createElement("img");
-  img.setAttribute(
-    "src",
-    "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/132.png"
-  );
+  img.setAttribute("src", pokemonObjData.img);
   cardContainerDiv.appendChild(img);
-  createDiv(["pokemon-name"], cardContainerDiv, "Magneton");
+  createDiv(["pokemon-name"], cardContainerDiv, pokemonObjData.name);
   const pokemonTypeDetails = createDiv(
     ["pokemon-type", "details"],
     cardContainerDiv
   );
-  //   cardContainerDiv;
-  createDiv(null, pokemonTypeDetails, "electric");
-  createDiv(null, pokemonTypeDetails, "steel");
+  for (let i = 0; i < pokemonObjData?.types.length; i++) {
+    createDiv(null, pokemonTypeDetails, [pokemonObjData?.types[i]]);
+  }
   const pokemonProperties = createDiv(
     ["pokemon-properties", "details"],
     cardContainerDiv
   );
-  for (i = 1; i <= 3; i++) {
+  const dataProperties = [
+    { attack: pokemonObjData.attack },
+    { defense: pokemonObjData.defense },
+    { speed: pokemonObjData.speed },
+  ];
+  dataProperties.forEach((element, i) => {
     const propertiesDiv = createDiv(["properties"], pokemonProperties);
-    // Should have different text
-    createDiv([`properties-${i}`, `font-properties`], propertiesDiv, "60");
-    // Should have different text
-    createDiv(null, propertiesDiv, "Attak");
-  }
+    console.log(element);
+    createDiv(
+      [`properties-${i}`, `font-properties`],
+      propertiesDiv,
+      Object.values(element)
+    );
+    createDiv(null, propertiesDiv, `${Object.keys(element)}`);
+  });
 }
 
-(function createDomPage() {
+(async function createDomPage() {
+  const allCardsDiv = createDiv(["cards"]);
   createBarElement();
-  CreateCardElement();
+  const data = await getPokemonData();
+  const dataPokemons = data.data;
+  console.log(dataPokemons);
+  for (let i = 0; i < dataPokemons.length; i++) {
+    CreateCardElement(dataPokemons[i], allCardsDiv);
+  }
 })();
