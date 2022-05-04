@@ -1,3 +1,8 @@
+*{
+    box-sizing: border-box;
+    margin:0;
+}
+
 body{
     height: 100vh;
     display: flex;
@@ -6,31 +11,43 @@ body{
     align-content: strech;
     justify-content: center;
 }
-.cards{
-    display: flex;
-    flex-direction: row;
-}
 
-*{
-    box-sizing: border-box;
-    margin:0;
-}
-
-.proggress-bar{
+.progress-border{
     height: 20px;
     width: 100vw;
-    position: absolute;
+    position: fixed;
     top: 0;
-    right: 0;
+    left: 0;
     background-color: white;
     border: solid;
     border-color: black;
 }
 
+.progress-bar{
+    width: 99vw;
+    height: 14px;
+    /* position: absolute; */
+    /* top: 1px; */
+    /* left: 1px; */
+    /* border: solid; */
+    /* border-color: blue; */
+    background-color: blue;
+}
+
+.cards{
+    display: flex;
+    /* width:  100vw; */
+    /* gap: 20px; */
+    overflow-x: scroll;
+    scroll-snap-type: x mandatory;
+}
+
 .card-container{
-    width: 80vw;
+    width: 100vw;
     max-width: 600px;
     display: flex;
+    flex:none;
+    scroll-snap-align: center;
     /* align-self: center; */
     flex-flow: column;
     justify-content: center;
