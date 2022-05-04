@@ -5,10 +5,11 @@
 
 body{
     height: 100vh;
+    /* position: fixed; */
+    /* width: 2000vw; */
     display: flex;
     flex-flow: column;
-    align-items: center;
-    align-content: strech;
+    align-items: start;
     justify-content: center;
 }
 
@@ -19,14 +20,14 @@ body{
     top: 0;
     left: 0;
     background-color: white;
-    border: solid;
+    border: 1px;
     border-color: black;
 }
 
 .progress-bar{
-    width: 99vw;
+    /* width: 99vw; */
     height: 14px;
-    /* position: absolute; */
+    position: fixed;
     /* top: 1px; */
     /* left: 1px; */
     /* border: solid; */
@@ -46,8 +47,8 @@ body{
     width: 100vw;
     max-width: 600px;
     display: flex;
-    flex:none;
-    scroll-snap-align: center;
+    /* flex:none; */
+    /* scroll-snap-align: center; */
     /* align-self: center; */
     flex-flow: column;
     justify-content: center;
