@@ -108,11 +108,16 @@ function touchStart() {}
 function CreateCardElement(pokemonObjData, cardsDiv) {
   // debugger;
   const cardContainerDiv = createDiv(["card-container"], cardsDiv);
+  createDiv(["top-card-shape"], cardContainerDiv);
   createDiv(["top-card-info"], cardContainerDiv, `Hp ${pokemonObjData.hp}`);
   const img = document.createElement("img");
   img.setAttribute("src", pokemonObjData.img);
   cardContainerDiv.appendChild(img);
-  createDiv(["pokemon-name"], cardContainerDiv, pokemonObjData.name);
+  createDiv(
+    ["pokemon-name", "font-properties"],
+    cardContainerDiv,
+    pokemonObjData.name
+  );
   const pokemonTypeDetails = createDiv(
     ["pokemon-type", "details"],
     cardContainerDiv

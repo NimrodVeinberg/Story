@@ -1,6 +1,11 @@
-*{
+/* *,*::before,*::after{
     box-sizing: border-box;
     margin:0;
+} */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
 }
 
 body{
@@ -16,23 +21,38 @@ body{
 .progress-border{
     height: 20px;
     width: 100vw;
+    display: flex;
+    /* flex-flow: column; */
     position: fixed;
     top: 0;
     left: 0;
     background-color: white;
-    border: 1px;
+    /* border: 1px; */
     border-color: black;
 }
 
+/* Need to cancel height, background-color */
 .progress-bar{
     /* width: 99vw; */
     height: 14px;
-    position: fixed;
-    /* top: 1px; */
+    /* stay on the viewport but doesn't work well */
+    position: absolute;
+    /* top: 10px; */
+    border: solid;
     /* left: 1px; */
     /* border: solid; */
     /* border-color: blue; */
     background-color: blue;
+}
+
+.progress-bars{
+    height: 14px;
+    /* position: relative; */
+    top: 10px;
+    left: 0px;
+    border: solid;
+    border-color: white;
+    background-color: black;
 }
 
 .cards{
@@ -47,6 +67,7 @@ body{
     width: 100vw;
     max-width: 600px;
     display: flex;
+    position: relative;
     /* flex:none; */
     /* scroll-snap-align: center; */
     /* align-self: center; */
@@ -58,12 +79,30 @@ body{
     padding: 10px;
 }
 
+.top-card-shape{
+    width: 100vw;
+    height: 25vh;
+    display: flex;
+    position: absolute;
+    top: 0;
+    clip-path: circle(65.8% at 49% 0);
+    border-color: yellow;
+    background-color: yellow;
+    z-index: -1;
+}
+
+
 
 
 .top-card-info{
     display:flex;
+    padding: 1px 8px 1px 8px;
     align-self: flex-end;
+    border-radius: 30px;
+    background-color: aqua;
+    border-color: aqua;
 }
+
 
 img{
     width: 50%;
