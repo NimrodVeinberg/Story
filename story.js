@@ -25,25 +25,35 @@ function createDiv(className, parentElement, textContent) {
 // Progress bar
 function createBarElement(picturesNumber) {
   const progressBorder = createDiv(["progress-border"]);
-  for (let i = 0; i < picturesNumber.length; i++) {
-    createDiv("");
+  console.log(picturesNumber);
+  for (let i = 0; i < picturesNumber; i++) {
+    // debugger;
+    let progressBar = createDiv(["progress-bars"], progressBorder);
+    progressBar.style.width = `${100 / picturesNumber}vw`;
   }
-  createDiv(["progress-bar"], progressBorder);
+  const progressBar = createDiv(["progress-bar"], progressBorder);
+  progressBar.style.width = `${100 / picturesNumber}vw`;
+  // createDiv(["progress-bar"], progressBorder);
 }
 
 // change the progress bar
-function changeProgressBar() {
-  bar = document.querySelector(".progress-bar");
+function changeProgressBar(picturesNumber) {
+  progressBar = document.querySelector(".progress-bar");
   let width = 0;
+  let currentPictureNumber = 1;
   function progressBarAnimation() {
     width++;
-    if (width > 100) {
+    if (width >= 100 / picturesNumber) {
+      // debugger;
       scrollStory();
+      progressBar.style.left = `${(100 / 13) * currentPictureNumber}vw`;
       width = 0;
+      currentPictureNumber++;
+      // clearInterval(progressBarAnimation);
     }
-    bar.style.width = `${width}%`;
+    progressBar.style.width = `${width}%`;
   }
-  setInterval(progressBarAnimation, 10);
+  setInterval(progressBarAnimation, 50);
 }
 let moveLeft = 0;
 
@@ -51,7 +61,7 @@ function scrollStory() {
   // let cards = document.querySelector(".cards");
   // let bar = document.querySelector(".card-container");
   let screenWidth = screen.width;
-  console.log(moveLeft);
+  // console.log(moveLeft);
   moveLeft += screenWidth;
   // debugger;
   window.scroll({
@@ -67,7 +77,7 @@ function addEventListener() {
   let cards = document.querySelector(".cards");
   cards.addEventListener("click", stopScroll);
   cards.addEventListener("mouseup", mouseUp);
-  cards.addEventListener("dragend", dragOver);
+  cards.addEventListener("touchstart", touchStart);
 }
 
 // let cardPos;
@@ -92,6 +102,8 @@ function dragOver() {
   const cards = document.querySelector(".cards");
   cards.style.align = "start";
 }
+
+function touchStart() {}
 
 function CreateCardElement(pokemonObjData, cardsDiv) {
   // debugger;
@@ -127,16 +139,14 @@ function CreateCardElement(pokemonObjData, cardsDiv) {
     createDiv(null, propertiesDiv, `${Object.keys(element)}`);
   });
 }
-
 (async function createDomPage() {
   const allCardsDiv = createDiv(["cards"]);
-  // debugger;
   // var cardsWidth = window.innerWidth * 14;
   // allCardsDiv.style.width = `${cardsWidth}px`;
   const { data } = await getPokemonData();
   const dataPokemons = data;
   createBarElement(dataPokemons.length);
-  changeProgressBar();
+  changeProgressBar(dataPokemons.length);
   addEventListener();
   for (let i = 0; i < dataPokemons.length; i++) {
     CreateCardElement(dataPokemons[i], allCardsDiv);
