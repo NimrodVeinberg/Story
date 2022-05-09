@@ -1,3 +1,13 @@
+const enumObject = {
+  default: "gray",
+  fire: "indianred",
+  grass: "aquamarine",
+  water: "cornflowerblue",
+  electric: "gold",
+  flying: "white",
+  poison: "crimson",
+};
+
 async function getPokemonData() {
   return await fetch("http://localhost:8081/pokemon")
     .then((response) => response.json())
@@ -28,12 +38,11 @@ function createBarElement(picturesNumber) {
   console.log(picturesNumber);
   for (let i = 0; i < picturesNumber; i++) {
     // debugger;
-    let progressBar = createDiv(["progress-bars"], progressBorder);
-    progressBar.style.width = `${100 / picturesNumber}vw`;
+    let progressBorderBar = createDiv(["progress-bars"], progressBorder);
+    progressBorderBar.style.width = `${100 / picturesNumber}vw`;
   }
   const progressBar = createDiv(["progress-bar"], progressBorder);
   progressBar.style.width = `${100 / picturesNumber}vw`;
-  // createDiv(["progress-bar"], progressBorder);
 }
 
 // change the progress bar
@@ -53,7 +62,7 @@ function changeProgressBar(picturesNumber) {
     }
     progressBar.style.width = `${width}%`;
   }
-  setInterval(progressBarAnimation, 50);
+  setInterval(progressBarAnimation, 200);
 }
 let moveLeft = 0;
 
@@ -77,38 +86,35 @@ function addEventListener() {
   let cards = document.querySelector(".cards");
   cards.addEventListener("click", stopScroll);
   cards.addEventListener("mouseup", mouseUp);
+  cards.addEventListener("drag", drag);
   cards.addEventListener("touchstart", touchStart);
 }
-
-// let cardPos;
 
 function stopScroll() {
   console.log("stopScroll");
   cards = document.querySelector(".cards");
-  // cardPos = cards.getBoundingClientRect();
-  // console.log(cardPos);
 }
 
 function mouseUp() {
   console.log("mouseUp");
   const cards = document.querySelector(".cards");
-  // cards.style.top = cardPos.top;
-  // cards.style.x = cardPos.x;
-  // cards.style.y = cardPos.y;
 }
 
-function dragOver() {
-  console.log("dragOver");
-  const cards = document.querySelector(".cards");
-  cards.style.align = "start";
+function drag() {
+  console.log("drag");
+  // const cards = document.querySelector(".cards");
+  // cards.style.align = "start";
 }
 
 function touchStart() {}
 
 function CreateCardElement(pokemonObjData, cardsDiv) {
-  // debugger;
   const cardContainerDiv = createDiv(["card-container"], cardsDiv);
-  createDiv(["top-card-shape"], cardContainerDiv);
+  const topCardShape = createDiv(["top-card-shape"], cardContainerDiv);
+  const cardColor = enumObject[pokemonObjData?.types[0]]
+    ? enumObject[pokemonObjData?.types[0]]
+    : enumObject["default"];
+  topCardShape.style.backgroundColor = cardColor;
   createDiv(["top-card-info"], cardContainerDiv, `Hp ${pokemonObjData.hp}`);
   const img = document.createElement("img");
   img.setAttribute("src", pokemonObjData.img);
@@ -118,12 +124,11 @@ function CreateCardElement(pokemonObjData, cardsDiv) {
     cardContainerDiv,
     pokemonObjData.name
   );
-  const pokemonTypeDetails = createDiv(
-    ["pokemon-type", "details"],
-    cardContainerDiv
-  );
+  const pokemonTypeDetails = createDiv(["details"], cardContainerDiv);
   for (let i = 0; i < pokemonObjData?.types.length; i++) {
-    createDiv(null, pokemonTypeDetails, [pokemonObjData?.types[i]]);
+    createDiv(["pokemon-type"], pokemonTypeDetails, [
+      pokemonObjData?.types[i],
+    ]).style.backgroundColor = cardColor;
   }
   const pokemonProperties = createDiv(
     ["pokemon-properties", "details"],
@@ -141,7 +146,7 @@ function CreateCardElement(pokemonObjData, cardsDiv) {
       propertiesDiv,
       Object.values(element)
     );
-    createDiv(null, propertiesDiv, `${Object.keys(element)}`);
+    createDiv(["bottom-properties"], propertiesDiv, `${Object.keys(element)}`);
   });
 }
 (async function createDomPage() {

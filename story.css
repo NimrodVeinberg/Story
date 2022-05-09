@@ -33,25 +33,22 @@ body{
 
 /* Need to cancel height, background-color */
 .progress-bar{
-    /* width: 99vw; */
-    height: 14px;
+    height: 8px;
+    margin: 5px 2px 0;
     /* stay on the viewport but doesn't work well */
     position: absolute;
     /* top: 10px; */
-    border: solid;
+    /* border: solid; */
     /* left: 1px; */
     /* border: solid; */
-    /* border-color: blue; */
-    background-color: blue;
+    background-color: orange;
 }
 
 .progress-bars{
-    height: 14px;
-    /* position: relative; */
-    top: 10px;
-    left: 0px;
-    border: solid;
-    border-color: white;
+    height: 8px;
+    margin: 5px 2px 0;
+    /* border: solid; */
+    /* border-color: white; */
     background-color: black;
 }
 
@@ -128,12 +125,10 @@ img{
 
 .pokemon-type{
     margin-bottom: 5vh;
-    width: min-content;
     padding: 5px;
     color: white;
     border-radius: 30px;
 }
-
 
 
 .pokemon-properties{
