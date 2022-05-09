@@ -35,7 +35,6 @@ function createDiv(className, parentElement, textContent) {
 // Progress bar
 function createBarElement(picturesNumber) {
   const progressBorder = createDiv(["progress-border"]);
-  console.log(picturesNumber);
   for (let i = 0; i < picturesNumber; i++) {
     // debugger;
     let progressBorderBar = createDiv(["progress-bars"], progressBorder);
@@ -55,14 +54,20 @@ function changeProgressBar(picturesNumber) {
     if (width >= 100 / picturesNumber) {
       // debugger;
       scrollStory();
-      progressBar.style.left = `${(100 / 13) * currentPictureNumber}vw`;
+      progressBar.style.left = `${
+        (100 / picturesNumber) * currentPictureNumber
+      }vw`;
+      createDiv(["progress-bar"], progressBar).style.width =
+        100 / picturesNumber;
       width = 0;
       currentPictureNumber++;
-      // clearInterval(progressBarAnimation);
+      if (currentPictureNumber > picturesNumber) {
+        clearInterval(progressInterval);
+      }
     }
     progressBar.style.width = `${width}%`;
   }
-  setInterval(progressBarAnimation, 200);
+  const progressInterval = setInterval(progressBarAnimation, 190);
 }
 let moveLeft = 0;
 
@@ -72,7 +77,6 @@ function scrollStory() {
   let screenWidth = screen.width;
   // console.log(moveLeft);
   moveLeft += screenWidth;
-  // debugger;
   window.scroll({
     left: moveLeft,
     behavior: "smooth",
@@ -88,6 +92,7 @@ function addEventListener() {
   cards.addEventListener("mouseup", mouseUp);
   cards.addEventListener("drag", drag);
   cards.addEventListener("touchstart", touchStart);
+  cards.addEventListener("touchEnd", touchEnd);
 }
 
 function stopScroll() {
@@ -106,7 +111,13 @@ function drag() {
   // cards.style.align = "start";
 }
 
-function touchStart() {}
+function touchStart() {
+  console.log("touchStart");
+}
+
+function touchEnd() {
+  console.log("touchEnd");
+}
 
 function CreateCardElement(pokemonObjData, cardsDiv) {
   const cardContainerDiv = createDiv(["card-container"], cardsDiv);
@@ -115,6 +126,7 @@ function CreateCardElement(pokemonObjData, cardsDiv) {
     ? enumObject[pokemonObjData?.types[0]]
     : enumObject["default"];
   topCardShape.style.backgroundColor = cardColor;
+  cardContainerDiv.style.borderColor = cardColor;
   createDiv(["top-card-info"], cardContainerDiv, `Hp ${pokemonObjData.hp}`);
   const img = document.createElement("img");
   img.setAttribute("src", pokemonObjData.img);

@@ -72,7 +72,9 @@ body{
     justify-content: center;
     align-items: center;
     border:solid;
-    border-color: black;
+    border-color: grey;
+    border-width: thin;
+    border-radius: 1px;
     padding: 10px;
 }
 
