@@ -52,20 +52,28 @@ body{
 
 .cards{
     display: flex;
-    /* width:  100vw; */
-    /* gap: 20px; */
+    position: relative;
+    /* left: 19.5px; */
+    /* gap: 30px; */
     overflow-x: scroll;
     scroll-snap-type: x mandatory;
+    z-index: -2;
 }
 
 .card-container{
     width: 100vw;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.card{
+    width: 90vw;
     max-width: 600px;
     display: flex;
     position: relative;
-    /* flex:none; */
     /* scroll-snap-align: center; */
-    /* align-self: center; */
     flex-flow: column;
     justify-content: center;
     align-items: center;
@@ -74,8 +82,9 @@ body{
     border-width: thin;
     border-radius: 1px;
     padding: 10px;
+    /* z-index: 5; */
+    box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px
 }
-
 .top-card-shape{
     width: 100%;
     height: 100%;
@@ -87,7 +96,7 @@ body{
     /* clip-path: circle(58.2% at 50% 0); */
 
     background-color: gray;
-    z-index: -1;
+    z-index: -5;
 }
 
 

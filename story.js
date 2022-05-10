@@ -56,7 +56,6 @@ function changeProgressBar(picturesNumber) {
       scrollStory();
       const progressStaticListBars =
         document.querySelectorAll(".progress-bars");
-      console.log(progressStaticListBars);
       progressStaticListBars[currentPictureNumber - 1].style.backgroundColor =
         "orange";
       progressBar.style.left = `${
@@ -77,9 +76,9 @@ let moveLeft = 0;
 
 function scrollStory() {
   // let cards = document.querySelector(".cards");
-  // let bar = document.querySelector(".card-container");
+  // let bar = document.querySelector(".card");
   let screenWidth = screen.width;
-  // console.log(moveLeft);
+  console.log(moveLeft);
   moveLeft += screenWidth;
   window.scroll({
     left: moveLeft,
@@ -124,23 +123,20 @@ function touchEnd() {
 }
 
 function CreateCardElement(pokemonObjData, cardsDiv) {
-  const cardContainerDiv = createDiv(["card-container"], cardsDiv);
-  const topCardShape = createDiv(["top-card-shape"], cardContainerDiv);
+  const cardContainer = createDiv(["card-container"], cardsDiv);
+  const cardDiv = createDiv(["card"], cardContainer);
+  const topCardShape = createDiv(["top-card-shape"], cardDiv);
   const cardColor = enumObject[pokemonObjData?.types[0]]
     ? enumObject[pokemonObjData?.types[0]]
     : enumObject["default"];
   topCardShape.style.backgroundColor = cardColor;
-  cardContainerDiv.style.borderColor = cardColor;
-  createDiv(["top-card-info"], cardContainerDiv, `Hp ${pokemonObjData.hp}`);
+  cardDiv.style.borderColor = cardColor;
+  createDiv(["top-card-info"], cardDiv, `Hp ${pokemonObjData.hp}`);
   const img = document.createElement("img");
   img.setAttribute("src", pokemonObjData.img);
-  cardContainerDiv.appendChild(img);
-  createDiv(
-    ["pokemon-name", "font-properties"],
-    cardContainerDiv,
-    pokemonObjData.name
-  );
-  const pokemonTypeDetails = createDiv(["details"], cardContainerDiv);
+  cardDiv.appendChild(img);
+  createDiv(["pokemon-name", "font-properties"], cardDiv, pokemonObjData.name);
+  const pokemonTypeDetails = createDiv(["details"], cardDiv);
   for (let i = 0; i < pokemonObjData?.types.length; i++) {
     createDiv(["pokemon-type"], pokemonTypeDetails, [
       pokemonObjData?.types[i],
@@ -148,7 +144,7 @@ function CreateCardElement(pokemonObjData, cardsDiv) {
   }
   const pokemonProperties = createDiv(
     ["pokemon-properties", "details"],
-    cardContainerDiv
+    cardDiv
   );
   const dataProperties = [
     { attack: pokemonObjData.attack },
