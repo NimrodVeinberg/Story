@@ -37,11 +37,11 @@ function createBarElement(picturesNumber) {
   const progressBorder = createDiv(["progress-border"]);
   for (let i = 0; i < picturesNumber; i++) {
     // debugger;
-    let progressBorderBar = createDiv(["progress-bars"], progressBorder);
-    progressBorderBar.style.width = `${100 / picturesNumber}vw`;
+    let progressStaticBar = createDiv(["progress-bars"], progressBorder);
+    progressStaticBar.style.width = `${100 / picturesNumber}vw`;
   }
-  const progressBar = createDiv(["progress-bar"], progressBorder);
-  progressBar.style.width = `${100 / picturesNumber}vw`;
+  const progressDynamicBar = createDiv(["progress-bar"], progressBorder);
+  progressDynamicBar.style.width = `${100 / picturesNumber}vw`;
 }
 
 // change the progress bar
@@ -54,11 +54,15 @@ function changeProgressBar(picturesNumber) {
     if (width >= 100 / picturesNumber) {
       // debugger;
       scrollStory();
+      const progressStaticListBars =
+        document.querySelectorAll(".progress-bars");
+      console.log(progressStaticListBars);
+      progressStaticListBars[currentPictureNumber - 1].style.backgroundColor =
+        "orange";
       progressBar.style.left = `${
         (100 / picturesNumber) * currentPictureNumber
       }vw`;
-      createDiv(["progress-bar"], progressBar).style.width =
-        100 / picturesNumber;
+      createDiv(["progress-bar-completed"]).style.width = 100 / picturesNumber;
       width = 0;
       currentPictureNumber++;
       if (currentPictureNumber > picturesNumber) {
