@@ -1,3 +1,4 @@
+var stopInterval = false;
 const enumObject = {
   default: "gray",
   fire: "indianred",
@@ -7,6 +8,27 @@ const enumObject = {
   flying: "white",
   poison: "crimson",
 };
+
+function cardIntersctionObserver() {
+  let options = {
+    root: null,
+    rootMargin: "0px",
+    threshold: 0.5,
+  };
+
+  const targets = document.querySelectorAll(".card-container");
+  console.log(targets);
+  for (let i = 0; i < targets.length; i++) {
+    let cardObserver = new IntersectionObserver(handleIntersectCard, options);
+    cardObserver.observe(targets[i]);
+  }
+}
+
+function handleIntersectCard(enteries, observer) {
+  enteries.forEach((entry) => {
+    console.log(entry);
+  });
+}
 
 async function getPokemonData() {
   return await fetch("http://localhost:8081/pokemon")
@@ -50,6 +72,9 @@ function changeProgressBar(picturesNumber) {
   let width = 0;
   let currentPictureNumber = 1;
   function progressBarAnimation() {
+    if (currentPictureNumber > picturesNumber || stopInterval) {
+      clearInterval(progressInterval);
+    }
     width++;
     if (width >= 100 / picturesNumber) {
       // debugger;
@@ -64,9 +89,6 @@ function changeProgressBar(picturesNumber) {
       createDiv(["progress-bar-completed"]).style.width = 100 / picturesNumber;
       width = 0;
       currentPictureNumber++;
-      if (currentPictureNumber > picturesNumber) {
-        clearInterval(progressInterval);
-      }
     }
     progressBar.style.width = `${width}%`;
   }
@@ -75,9 +97,12 @@ function changeProgressBar(picturesNumber) {
 let moveLeft = 0;
 
 function scrollStory() {
-  // let cards = document.querySelector(".cards");
-  // let bar = document.querySelector(".card");
-  let screenWidth = screen.width;
+  let cards = document.querySelector(".cards");
+  let cardContainer = document.querySelector(".card-container");
+  // Need to understand why the window
+  // let screenWidth = window.innerWidth;
+  let screenWidth = cardContainer.clientWidth;
+  // window.innerWidth < screen.width ? window.innerWidth : screen.width;
   console.log(moveLeft);
   moveLeft += screenWidth;
   window.scroll({
@@ -90,32 +115,35 @@ function scrollStory() {
 }
 
 function addEventListener() {
-  let cards = document.querySelector(".cards");
-  cards.addEventListener("click", stopScroll);
-  cards.addEventListener("mouseup", mouseUp);
-  cards.addEventListener("drag", drag);
-  cards.addEventListener("touchstart", touchStart);
-  cards.addEventListener("touchEnd", touchEnd);
+  let allCardsContainers = document.querySelectorAll(".card-container");
+  allCardsContainers.forEach((element) => {
+    console.log(element);
+
+    // cards.addEventListener("click", stopScroll);
+    element.addEventListener("dragstart", (e) => e.preventDefault());
+    element.addEventListener("touchstart", touchStart);
+    element.addEventListener("mousedown", touchStart);
+    element.addEventListener("mouseup", touchEnd);
+    element.addEventListener("mouseleave", touchEnd);
+    element.addEventListener("touchend", touchEnd);
+    element.addEventListener("mousemove", mouseMove);
+  });
 }
 
-function stopScroll() {
-  console.log("stopScroll");
-  cards = document.querySelector(".cards");
-}
-
-function mouseUp() {
-  console.log("mouseUp");
-  const cards = document.querySelector(".cards");
-}
-
-function drag() {
-  console.log("drag");
-  // const cards = document.querySelector(".cards");
-  // cards.style.align = "start";
+function dragStart(e) {
+  console.log("dragStart");
+  stopInterval = true;
+  e.preventDefault();
 }
 
 function touchStart() {
   console.log("touchStart");
+  stopInterval = true;
+}
+
+function mouseMove() {
+  console.log("touchStart");
+  stopInterval = true;
 }
 
 function touchEnd() {
@@ -169,8 +197,9 @@ function CreateCardElement(pokemonObjData, cardsDiv) {
   const dataPokemons = data;
   createBarElement(dataPokemons.length);
   changeProgressBar(dataPokemons.length);
-  addEventListener();
   for (let i = 0; i < dataPokemons.length; i++) {
     CreateCardElement(dataPokemons[i], allCardsDiv);
   }
+  addEventListener();
+  cardIntersctionObserver();
 })();
